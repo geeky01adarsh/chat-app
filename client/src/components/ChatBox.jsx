@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
-// import { addMessage, getMessages } from "../../api/MessageRequests";
-// import { getUser } from "../../api/UserRequests";
-// import "./ChatBox.css";
 import { format } from "timeago.js";
 import InputEmoji from "react-input-emoji";
 import axios from "axios";
@@ -23,16 +20,14 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
       const { data } = await axios.get(`${URL}/users/${userId}`);
       setUserData(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   // fetching data for header
   useEffect(() => {
     getUserData();
-  }, []);
-  //     if (chat !== null) getUserData();
-  //   }, [chat, currentUser]);
+  }, [chat, currentUser]);
 
   // fetch messages
   useEffect(() => {
@@ -41,9 +36,8 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
         await getUserData();
         const { data } = await axios.get(`${URL}/messages/${chat._id}`);
         setMessages(data);
-        console.log(data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
@@ -63,14 +57,13 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
       message: newMessage,
       chatId: chat._id,
     };
-    console.log(message);
-    // const receiverId = chat.members.find((id) => id !== currentUser);
+    const receiverId = chat.members.find((id) => id !== currentUser._id);
+    
     // // send message to socket server
-    // setSendMessage({ ...message, receiverId });
+    setSendMessage({ ...message, receiverId });
     // send message to database
     try {
       const { data } = await axios.post(`${URL}/messages`, message);
-      console.log(data);
       if (messages.length) {
         setMessages([...messages, data]);
       } else setMessages([data]);
@@ -82,12 +75,12 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   };
 
   // Receive Message from parent component
-  //   useEffect(() => {
-  //     console.log("Message Arrived: ", receivedMessage);
-  //     if (receivedMessage !== null && receivedMessage.chatId === chat._id) {
-  //       setMessages([...messages, receivedMessage]);
-  //     }
-  //   }, [receivedMessage]);
+    useEffect(() => {
+      console.log("Message Arrived: ", receivedMessage);
+      if (receivedMessage !== null && receivedMessage.chatId === chat._id) {
+        setMessages([...messages, receivedMessage]);
+      }
+    }, [receivedMessage]);
 
   const scroll = useRef();
   return (
