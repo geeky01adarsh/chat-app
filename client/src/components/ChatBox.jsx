@@ -17,18 +17,20 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
     setNewMessage(newMessage);
   };
 
+  const getUserData = async () => {
+    const userId = chat?.members?.find((id) => id !== currentUser);
+    try {
+      const { data } = await axios.get(`${URL}/users/${userId}`);
+      setUserData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // fetching data for header
   useEffect(() => {
-    const userId = chat?.members?.find((id) => id !== currentUser);
-    const getUserData = async () => {
-      try {
-        const { data } = await axios.get(`${URL}/users/${userId}`);
-        setUserData(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  });
+    getUserData();
+  }, []);
   //     if (chat !== null) getUserData();
   //   }, [chat, currentUser]);
 
@@ -36,7 +38,8 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const { data } = await axios.get(`${URL}/chats/currentUser/chat._id`);
+        await getUserData();
+        const { data } = await axios.get(`${URL}/messages/${chat._id}`);
         setMessages(data);
         console.log(data);
       } catch (error) {
@@ -57,9 +60,10 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
     e.preventDefault();
     const message = {
       senderId: currentUser._id,
-      text: newMessage,
+      message: newMessage,
       chatId: chat._id,
     };
+    console.log(message);
     // const receiverId = chat.members.find((id) => id !== currentUser);
     // // send message to socket server
     // setSendMessage({ ...message, receiverId });
@@ -96,7 +100,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
               <div className="follower">
                 <div>
                   <div className="name" style={{ fontSize: "0.9rem" }}>
-                    <span>{userData?userData.username:""}</span>
+                    <span>{userData ? userData.username : ""}</span>
                   </div>
                 </div>
               </div>
@@ -110,22 +114,22 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
             </div>
             {/* chat-body */}
             <div className="chat-body">
-              {console.log(messages)}
+              {/* {console.log(messages)} */}
               {!messages.length ? (
                 <>Send your first message...</>
               ) : (
                 messages.map((message) => (
                   <>
+                    {/* <span>hi</span> */}
                     <div
                       ref={scroll}
                       className={
-                        message.senderId === currentUser
+                        message.senderId === currentUser._id
                           ? "message own"
                           : "message"
                       }
                     >
-                      <span>hi</span>
-                      <span>{message.text}</span>{" "}
+                      <span>{message.message}</span>{" "}
                       <span>{format(message.createdAt)}</span>
                     </div>
                   </>
@@ -138,13 +142,6 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
               <div className="send-btn" onClick={handleSend}>
                 Send
               </div>
-              <input
-                type="file"
-                name=""
-                id=""
-                style={{ display: "none" }}
-                ref={imageRef}
-              />
             </div>{" "}
           </>
         ) : (

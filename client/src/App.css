@@ -136,7 +136,7 @@ input {
 }
 
 .message {
-  color: white;
+  color: black;
   padding: 0.7rem;
   border-radius: 1rem 1rem 1rem 0;
   max-width: 28rem;
@@ -144,6 +144,7 @@ input {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  background: #f0f0f0;
 }
 
 .message > span:nth-child(2) {
@@ -154,7 +155,7 @@ input {
 .own {
   align-self: flex-end;
   border-radius: 1rem 1rem 0 1rem;
-  background: linear-gradient(98.63deg, #24e4f0 0%, #358ff9 100%);
+  /* background: linear-gradient(98.63deg, #24e4f0 0%, #358ff9 100%); */
 }
 
 .chat-sender {

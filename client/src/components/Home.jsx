@@ -61,7 +61,7 @@ const Home = () => {
               >
                 <Conversation
                   data={chat}
-                  currentUser={user.user.user._id}
+                  currentUser={user.user.user}
                   online={true}
                   // online={checkOnlineStatus(chat)}
                 />
