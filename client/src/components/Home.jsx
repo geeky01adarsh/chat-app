@@ -55,7 +55,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8800");
+    socket.current = io("https://chat-app-socket-io-987i.onrender.com");
     socket.current.emit("new-user-add", user.user.user._id);
     socket.current.on("get-users", (users) => {
       setOnlineUsers(users);

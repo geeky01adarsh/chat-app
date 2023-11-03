@@ -11,7 +11,7 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 
 // {login:boolean, user:{user object}}
-export const URL = "http://localhost:5000/api/v1";
+export const URL = "https://chat-app-be-hdu6.onrender.com/api/v1";
 export const userContext = createContext();
 
 
