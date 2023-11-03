@@ -1,6 +1,6 @@
 const io = require("socket.io")(8800, {
     cors: {
-      origin: "https://chat-app-be-hdu6.onrender.com",
+      origin: "https://chat-app-fe-8t62.onrender.com",
     },
   });
   
