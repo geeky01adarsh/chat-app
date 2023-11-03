@@ -15,7 +15,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   };
 
   const getUserData = async () => {
-    const userId = chat?.members?.find((id) => id !== currentUser);
+    const userId = chat?.members?.find((id) => id !== currentUser._id);
     try {
       const { data } = await axios.get(`${URL}/users/${userId}`);
       setUserData(data);

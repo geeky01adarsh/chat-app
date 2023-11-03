@@ -49,7 +49,7 @@ input {
   display: grid;
   margin-left: 0;
   margin-right: 0;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 35% 65%;
   gap: 1rem;
 }
 
