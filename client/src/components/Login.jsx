@@ -5,8 +5,8 @@ import axios from "axios";
 
 const Login = () => {
   const [login, setLogin] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("geeky01adarsh@gmail.com");
+  const [password, setPassword] = useState("geeky01adarsh");
   const [username, setUserName] = useState("");
   const user = useContext(userContext);
   const navigate = useNavigate();
@@ -122,6 +122,12 @@ const Login = () => {
               </button>
             </>
           )}
+
+
+          {/* second account credentials */}
+          <h4>Credentials for second account</h4>
+          <span><em>email: </em>geeky01adarsh1@gmail.com</span>
+          <span><em>password: </em>geeky01adarsh1</span>
         </form>
       </div>
     </>
